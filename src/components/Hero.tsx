@@ -120,15 +120,16 @@ export default function Hero({
       {/* Top Half (Mobile): Menu + Mosaic */}
       <div className="w-full h-1/2 md:w-1/2 md:h-full flex flex-col">
         {/* Mobile Horizontal Menu (Visible ONLY on Mobile) */}
-        <div className="md:hidden w-full bg-white border-b border-gray-100 py-3 px-4 z-40 flex-none relative">
+        <div className="md:hidden w-full bg-white border-b border-gray-100 py-3 px-4 z-[60] flex-none relative">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 justify-center">
             {menuItems.map((item) => (
               <button
                 key={item}
                 onClick={() => handleCategoryClick(item)}
-                className={`text-[10px] font-medium tracking-wide hover:opacity-70 transition-opacity uppercase leading-tight whitespace-nowrap ${
+                style={{ touchAction: "manipulation" }}
+                className={`text-xs font-bold tracking-wide hover:opacity-70 transition-opacity uppercase leading-tight whitespace-nowrap ${
                   category === item && !selectedProject
-                    ? "font-bold border-b border-black"
+                    ? "border-b-2 border-black"
                     : ""
                 }`}
               >
@@ -138,11 +139,11 @@ export default function Hero({
             <div className="w-px h-3 bg-gray-300 mx-1" />
             <a
               href="/contact"
-              className="text-[10px] font-medium tracking-wide hover:opacity-70 uppercase whitespace-nowrap"
+              className="text-xs font-bold tracking-wide hover:opacity-70 uppercase whitespace-nowrap"
             >
               CONTACT
             </a>
-            <div className="text-[10px] font-medium tracking-wide uppercase opacity-70 whitespace-nowrap">
+            <div className="text-xs font-bold tracking-wide uppercase opacity-70 whitespace-nowrap">
               WHOAMI
             </div>
           </div>
@@ -170,7 +171,7 @@ export default function Hero({
           {scrollPos > 10 && (
             <button
               onClick={() => handleScroll("up")}
-              className="absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-white/80 p-2 rounded-full hover:bg-white transition-all shadow-md animate-in fade-in cursor-pointer text-black"
+              className="absolute top-4 left-1/2 -translate-x-1/2 z-40 bg-white/80 p-2 rounded-full hover:bg-white transition-all shadow-md animate-in fade-in cursor-pointer text-black"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -191,39 +192,41 @@ export default function Hero({
 
           <div
             ref={containerRef}
-            className="h-full w-full overflow-hidden grid grid-cols-1 md:grid-cols-2 auto-rows-[100%] md:auto-rows-[33vh] gap-1 p-1"
+            className="h-full w-full overflow-hidden flex flex-col md:grid md:grid-cols-2 md:auto-rows-[33vh] md:gap-1 md:p-1"
             style={{ scrollBehavior: "smooth" }}
           >
             <AnimatePresence mode="popLayout" initial={false}>
               {displayItems.map((item) => (
-                <motion.div
+                <motion.button
                   key={item.id}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
-                  className={`relative overflow-hidden bg-gray-200 cursor-pointer group ${
+                  className={`relative overflow-hidden bg-gray-200 cursor-pointer group/tile z-30 w-full h-full flex-none md:h-full text-left appearance-none focus:outline-none touch-manipulation ${
                     item.span || ""
                   }`}
-                  onTap={() => !item.isGallery && openProject(item as any)}
+                  onClick={() => {
+                    if (!item.isGallery) openProject(item as any);
+                  }}
                 >
                   <Image
                     src={item.src}
                     alt={item.category}
                     fill
                     className={`object-cover transition-transform duration-700 ${
-                      !item.isGallery ? "md:group-hover:scale-105" : ""
+                      !item.isGallery ? "md:group-hover/tile:scale-105" : ""
                     }`}
                     sizes="50vw"
                   />
                   {!item.isGallery && (
-                    <div className="absolute inset-0 bg-black/0 md:group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 md:group-hover:opacity-100 pointer-events-none">
+                    <div className="absolute inset-0 bg-black/0 md:group-hover/tile:bg-black/20 transition-colors flex items-center justify-center opacity-0 md:group-hover/tile:opacity-100 pointer-events-none">
                       <span className="text-white font-medium text-xs tracking-widest uppercase bg-black/50 px-2 py-1 backdrop-blur-sm">
                         {item.title}
                       </span>
                     </div>
                   )}
-                </motion.div>
+                </motion.button>
               ))}
             </AnimatePresence>
 
@@ -238,7 +241,7 @@ export default function Hero({
           {scrollPos < maxScroll - 10 && displayItems.length > 0 && (
             <button
               onClick={() => handleScroll("down")}
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 bg-white/80 p-2 rounded-full hover:bg-white transition-all shadow-md animate-in fade-in cursor-pointer text-black"
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 bg-white/80 p-2 rounded-full hover:bg-white transition-all shadow-md animate-in fade-in cursor-pointer text-black"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -30,7 +30,7 @@ export default function Header({
 
   return (
     <>
-      <header className="fixed top-0 w-full z-50 text-white mix-blend-difference pointer-events-none md:grid md:grid-cols-4 md:gap-1 flex justify-end p-6 md:p-0">
+      <header className="fixed top-0 w-full z-50 text-white mix-blend-difference pointer-events-none md:grid md:grid-cols-4 md:gap-1 flex justify-end md:p-0">
         {/* Desktop Menu - Col 3 */}
         <div className="hidden md:flex col-start-3 justify-between items-start py-6 px-4 pointer-events-auto">
           <div className="flex flex-col gap-2 items-start">

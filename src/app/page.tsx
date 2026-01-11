@@ -20,6 +20,7 @@ export default function Home() {
       />
       <Hero
         category={category}
+        setCategory={setCategory}
         onViewChange={setIsProjectOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
       />
