@@ -9,9 +9,14 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 interface HeroProps {
   category?: string;
   onViewChange?: (isOpen: boolean) => void;
+  setIsMobileMenuOpen?: (isOpen: boolean) => void;
 }
 
-export default function Hero({ category = "ALL", onViewChange }: HeroProps) {
+export default function Hero({
+  category = "ALL",
+  onViewChange,
+  setIsMobileMenuOpen,
+}: HeroProps) {
   const [scrollPos, setScrollPos] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const [maxScroll, setMaxScroll] = useState(0);
@@ -85,9 +90,9 @@ export default function Hero({ category = "ALL", onViewChange }: HeroProps) {
       }));
 
   return (
-    <section className="h-screen w-full flex overflow-hidden">
+    <section className="h-[100dvh] w-full flex flex-col md:flex-row overflow-hidden">
       {/* Left: Interactive Mosaic */}
-      <div className="w-1/2 h-full bg-gray-100 relative group">
+      <div className="w-full h-1/2 md:w-1/2 md:h-full bg-gray-100 relative group">
         {/* Back Button (Only visible when project is selected) */}
         <AnimatePresence>
           {selectedProject && (
@@ -196,8 +201,16 @@ export default function Hero({ category = "ALL", onViewChange }: HeroProps) {
         )}
       </div>
 
-      <div className="w-1/2 h-full flex flex-col justify-center p-12 bg-white relative">
-        <div className="flex-1 flex items-end justify-start pb-12 overflow-hidden">
+      <div className="w-full h-1/2 md:w-1/2 md:h-full flex flex-col justify-end px-6 pt-6 pb-20 md:justify-center md:p-12 bg-white relative overflow-y-auto md:overflow-hidden">
+        {/* Mobile Menu Trigger Check - Positioned absolutely in the Top Right of the WHITE container */}
+        <button
+          onClick={() => setIsMobileMenuOpen && setIsMobileMenuOpen(true)}
+          className="absolute top-6 right-6 md:hidden text-sm font-bold tracking-widest uppercase z-10"
+        >
+          MENU
+        </button>
+
+        <div className="flex-[0_0_auto] md:flex-1 flex items-end justify-start pb-4 md:pb-12 overflow-hidden">
           <AnimatePresence mode="popLayout" initial={false}>
             {selectedProject ? (
               <motion.h1
@@ -206,7 +219,7 @@ export default function Hero({ category = "ALL", onViewChange }: HeroProps) {
                 animate={{ y: "0%", opacity: 1 }}
                 exit={{ y: "100%", opacity: 0 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="text-8xl md:text-[8vw] font-normal tracking-tighter leading-none"
+                className="text-5xl md:text-[8vw] font-normal tracking-tighter leading-none"
               >
                 {selectedProject.title}
               </motion.h1>
@@ -217,7 +230,7 @@ export default function Hero({ category = "ALL", onViewChange }: HeroProps) {
                 animate={{ y: "0%", opacity: 1 }}
                 exit={{ y: "-100%", opacity: 0 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="text-8xl md:text-[8vw] font-normal tracking-tighter leading-none"
+                className="text-5xl md:text-[8vw] font-normal tracking-tighter leading-none"
               >
                 borntocreate
               </motion.h1>
@@ -225,7 +238,7 @@ export default function Hero({ category = "ALL", onViewChange }: HeroProps) {
           </AnimatePresence>
         </div>
 
-        <div className="pb-12 h-64 overflow-hidden relative">
+        <div className="pb-12 h-auto md:h-64 overflow-hidden relative">
           <AnimatePresence mode="popLayout" initial={false}>
             {selectedProject ? (
               <motion.div
@@ -236,7 +249,7 @@ export default function Hero({ category = "ALL", onViewChange }: HeroProps) {
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="absolute top-0 left-0 w-full"
               >
-                <p className="text-lg md:text-xl font-medium max-w-md leading-relaxed">
+                <p className="text-base md:text-xl font-medium max-w-md leading-relaxed">
                   {selectedProject.description}
                   <br />
                   <br />
@@ -261,7 +274,7 @@ export default function Hero({ category = "ALL", onViewChange }: HeroProps) {
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="absolute top-0 left-0 w-full"
               >
-                <p className="text-lg md:text-xl font-medium max-w-md leading-relaxed">
+                <p className="text-base md:text-xl font-medium max-w-md leading-relaxed">
                   We are evolving from laborers into true creators—designed to
                   think, elaborate, and bring new ideas to life.
                   <br className="mb-4 block" />

@@ -7,6 +7,7 @@ import Hero from "@/components/Hero";
 export default function Home() {
   const [category, setCategory] = useState("ALL");
   const [isProjectOpen, setIsProjectOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <main className="h-screen w-screen overflow-hidden">
@@ -14,8 +15,14 @@ export default function Home() {
         activeCategory={category}
         setCategory={setCategory}
         isProjectOpen={isProjectOpen}
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
       />
-      <Hero category={category} onViewChange={setIsProjectOpen} />
+      <Hero
+        category={category}
+        onViewChange={setIsProjectOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+      />
     </main>
   );
 }
