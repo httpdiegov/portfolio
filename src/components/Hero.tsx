@@ -27,9 +27,12 @@ export default function Hero({
 
   const menuItems = ["ALL", "WEB PROJECTS", "BRANDS", "AUTOMATIONS"];
 
-  const filteredItems = projects.filter(
-    (item) => category === "ALL" || item.category === category
-  );
+  const filteredItems = projects.filter((item) => {
+    if (category === "ALL") {
+      return item.category !== "CONTACT";
+    }
+    return item.category === category;
+  });
 
   useEffect(() => {
     setScrollPos(0);

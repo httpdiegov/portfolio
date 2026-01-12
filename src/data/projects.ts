@@ -34,16 +34,7 @@ export const projects: Project[] = [
     link: "mailto:diegovergarah2712@gmail.com",
     date: "",
   },
-  {
-    id: "contact-phone",
-    title: "+51 913239183",
-    description: "Phone",
-    image: "",
-    category: "CONTACT",
-    tags: ["Phone"],
-    link: "tel:+51913239183",
-    date: "",
-  },
+
   // {
   //   id: "contact-instagram",
   //   title: "instagram.com/http_diegov",
