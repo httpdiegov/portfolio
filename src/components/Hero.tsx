@@ -118,11 +118,11 @@ export default function Hero({
       }));
 
   return (
-    <section className="h-[100dvh] w-full flex flex-col md:flex-row overflow-hidden">
+    <section className="h-dvh w-full flex flex-col md:flex-row overflow-hidden">
       {/* Top Half (Mobile): Menu + Mosaic */}
       <div className="w-full h-1/2 md:w-1/2 md:h-full flex flex-col">
         {/* Mobile Horizontal Menu (Visible ONLY on Mobile) */}
-        <div className="md:hidden w-full bg-white border-b border-gray-100 py-3 px-4 z-[60] flex-none relative">
+        <div className="md:hidden w-full bg-white border-b border-gray-100 py-3 px-4 z-60 flex-none relative">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 justify-center">
             {menuItems.map((item) => (
               <button

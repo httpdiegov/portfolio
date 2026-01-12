@@ -82,7 +82,7 @@ export default function Header({
             animate={{ opacity: 1, x: "0%" }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-y-0 right-0 w-3/4 z-[60] bg-white text-black flex flex-col p-6 shadow-2xl"
+            className="fixed inset-y-0 right-0 w-3/4 z-60 bg-white text-black flex flex-col p-6 shadow-2xl"
           >
             <div className="flex justify-end">
               <button
