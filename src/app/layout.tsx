@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Narrative | Digital Product Studio",
-  description: "Based on Tashkent with 15 years of digital experience",
+  title: "Borntocreate Portfolio",
+  description: "Web projects, brands and automations",
 };
 
 export default function RootLayout({

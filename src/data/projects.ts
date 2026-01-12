@@ -4,7 +4,7 @@ export interface Project {
   description: string;
   image: string;
   gallery?: string[]; // Multiple images for the lightbox
-  category: "WEB PROJECTS" | "BRANDS" | "AUTOMATIONS"; // Strict categories for filtering
+  category: "WEB PROJECTS" | "BRANDS" | "AUTOMATIONS" | "CONTACT"; // Strict categories for filtering
   span?: string; // Grid span class (e.g., "col-span-2", "row-span-2")
   tags: string[];
   link?: string;
@@ -14,7 +14,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "true-web",
-    title: "True Web",
+    title: "True Vintage Website",
     description: "Tienda online de ropa vintage premium.",
     image: "/trueweb1.png",
     gallery: ["/trueweb1.png", "/trueweb1.png", "/trueweb1.png"],
@@ -25,41 +25,43 @@ export const projects: Project[] = [
     date: "2024-05-01",
   },
   {
-    id: "1",
-    title: "Portfolio V1",
-    description: "Mi primer portafolio personal.",
-    image: "/model1.png", // Using existing placeholder for now
-    category: "BRANDS",
-    tags: ["HTML", "CSS"],
-    date: "2024-01-01",
+    id: "contact-email",
+    title: "diegovergarah2712@gmail.com",
+    description: "Email",
+    image: "", // No image for contact list
+    category: "CONTACT",
+    tags: ["Email"],
+    link: "mailto:diegovergarah2712@gmail.com",
+    date: "",
   },
   {
-    id: "2",
-    title: "E-commerce Demo",
-    description: "Demo de tienda online.",
-    image: "/mosaic/tile3.png", // Using existing placeholder
-    category: "WEB PROJECTS",
-    link: "https://ecommerce-demo.com",
-    tags: ["Next.js", "Stripe"],
-    date: "2024-03-15",
+    id: "contact-phone",
+    title: "+51 913239183",
+    description: "Phone",
+    image: "",
+    category: "CONTACT",
+    tags: ["Phone"],
+    link: "tel:+51913239183",
+    date: "",
   },
-  {
-    id: "3",
-    title: "Automation Dashboard",
-    description: "Dashboard para automatizaciones.",
-    image: "/mosaic/tile2.png",
-    category: "AUTOMATIONS",
-    span: "",
-    tags: ["Python", "React"],
-    date: "2024-02-20",
-  },
-  {
-    id: "4",
-    title: "Brand Identity",
-    description: "Identidad visual para marca.",
-    image: "/mosaic/tile4.png",
-    category: "BRANDS",
-    tags: ["Design", "Branding"],
-    date: "2024-04-10",
-  },
+  // {
+  //   id: "contact-instagram",
+  //   title: "instagram.com/http_diegov",
+  //   description: "Instagram",
+  //   image: "",
+  //   category: "CONTACT",
+  //   tags: ["Social"],
+  //   link: "https://instagram.com/http_diegov",
+  //   date: "",
+  // },
+  // {
+  //   id: "contact-linkedin",
+  //   title: "LinkedIn",
+  //   description: "LinkedIn",
+  //   image: "",
+  //   category: "CONTACT",
+  //   tags: ["Social"],
+  //   link: "https://linkedin.com", // Placeholder
+  //   date: "",
+  // },
 ];

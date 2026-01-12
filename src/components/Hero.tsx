@@ -105,8 +105,10 @@ export default function Hero({
         id: `gallery-${selectedProject.id}-${index}`,
         src,
         title: selectedProject.title,
+        description: "",
         category: selectedProject.category,
         span: "",
+        link: "",
         isGallery: true,
       }))
     : filteredItems.map((item) => ({
@@ -126,23 +128,42 @@ export default function Hero({
               <button
                 key={item}
                 onClick={() => handleCategoryClick(item)}
-                style={{ touchAction: "manipulation" }}
-                className={`text-xs font-bold tracking-wide hover:opacity-70 transition-opacity uppercase leading-tight whitespace-nowrap ${
-                  category === item && !selectedProject
-                    ? "border-b-2 border-black"
-                    : ""
-                }`}
+                className="relative text-xs font-bold tracking-wide hover:opacity-70 transition-opacity uppercase whitespace-nowrap pb-1"
               >
                 {item}
+                <AnimatePresence>
+                  {category === item && !selectedProject && (
+                    <motion.div
+                      key="mobile-underline"
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      exit={{ width: "0%" }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="absolute left-0 bottom-0 h-0.5 bg-black"
+                    />
+                  )}
+                </AnimatePresence>
               </button>
             ))}
             <div className="w-px h-3 bg-gray-300 mx-1" />
-            <a
-              href="/contact"
-              className="text-xs font-bold tracking-wide hover:opacity-70 uppercase whitespace-nowrap"
+            <button
+              onClick={() => handleCategoryClick("CONTACT")}
+              className="relative text-xs font-bold tracking-wide hover:opacity-70 transition-opacity uppercase whitespace-nowrap pb-1"
             >
               CONTACT
-            </a>
+              <AnimatePresence>
+                {category === "CONTACT" && !selectedProject && (
+                  <motion.div
+                    key="mobile-underline-contact"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    exit={{ width: "0%" }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="absolute left-0 bottom-0 h-0.5 bg-black"
+                  />
+                )}
+              </AnimatePresence>
+            </button>
             <div className="text-xs font-bold tracking-wide uppercase opacity-70 whitespace-nowrap">
               WHOAMI
             </div>
@@ -159,16 +180,16 @@ export default function Hero({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 onClick={closeProject}
-                className="absolute top-6 left-6 z-30 flex items-center gap-2 text-xs font-bold uppercase tracking-widest bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full hover:bg-white transition-all shadow-sm cursor-pointer"
+                className="absolute top-6 left-6 z-50 flex items-center gap-2 text-xs font-bold uppercase tracking-widest bg-white/90 backdrop-blur-sm p-3 md:px-4 md:py-2 rounded-full hover:bg-white transition-all shadow-sm cursor-pointer"
               >
                 <ChevronLeft size={16} />
-                Back to Projects
+                <span className="hidden md:inline">Back to Projects</span>
               </motion.button>
             )}
           </AnimatePresence>
 
           {/* Up Arrow */}
-          {scrollPos > 10 && (
+          {scrollPos > 10 && category !== "CONTACT" && (
             <button
               onClick={() => handleScroll("up")}
               className="absolute top-4 left-1/2 -translate-x-1/2 z-40 bg-white/80 p-2 rounded-full hover:bg-white transition-all shadow-md animate-in fade-in cursor-pointer text-black"
@@ -198,67 +219,98 @@ export default function Hero({
             <AnimatePresence mode="popLayout" initial={false}>
               {displayItems.map((item) => (
                 <motion.button
+                  layout
                   key={item.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
-                  className={`relative overflow-hidden bg-gray-200 cursor-pointer group/tile z-30 w-full h-full flex-none md:h-full text-left appearance-none focus:outline-none touch-manipulation ${
-                    item.span || ""
-                  }`}
+                  className={`relative group/tile overflow-hidden bg-gray-100 flex items-center justify-center ${
+                    item.category === "CONTACT"
+                      ? "col-span-2 h-auto py-4 bg-white border-b border-black/5 last:border-0 hover:bg-gray-50 transition-colors"
+                      : "md:h-full w-full h-full flex-none"
+                  } ${item.span || ""}`}
                   onClick={() => {
+                    if (item.category === "CONTACT") {
+                      window.open(item.link, "_blank");
+                      return;
+                    }
                     if (!item.isGallery) openProject(item as any);
                   }}
                 >
-                  <Image
-                    src={item.src}
-                    alt={item.category}
-                    fill
-                    className={`object-cover transition-transform duration-700 ${
-                      !item.isGallery ? "md:group-hover/tile:scale-105" : ""
-                    }`}
-                    sizes="50vw"
-                  />
-                  {!item.isGallery && (
-                    <div className="absolute inset-0 bg-black/0 md:group-hover/tile:bg-black/20 transition-colors flex items-center justify-center opacity-0 md:group-hover/tile:opacity-100 pointer-events-none">
-                      <span className="text-white font-medium text-xs tracking-widest uppercase bg-black/50 px-2 py-1 backdrop-blur-sm">
+                  {item.category === "CONTACT" ? (
+                    <div className="flex flex-col items-center">
+                      <span className="text-sm font-medium tracking-widest uppercase mb-1 opacity-50">
+                        {item.description}
+                      </span>
+                      <span className="text-lg md:text-2xl font-light tracking-tight uppercase hover:opacity-70 transition-opacity text-center px-4">
                         {item.title}
                       </span>
                     </div>
+                  ) : (
+                    <>
+                      <Image
+                        src={item.src}
+                        alt={item.title}
+                        fill
+                        className={`object-cover transition-transform duration-700 ${
+                          !item.isGallery ? "md:group-hover/tile:scale-105" : ""
+                        }`}
+                        sizes="50vw"
+                      />
+                      {!item.isGallery && (
+                        <div className="absolute inset-0 bg-black/0 md:group-hover/tile:bg-black/20 transition-colors flex items-center justify-center opacity-0 md:group-hover/tile:opacity-100 pointer-events-none">
+                          <span className="text-white font-medium text-xs tracking-widest uppercase bg-black/50 px-2 py-1 backdrop-blur-sm">
+                            {item.title}
+                          </span>
+                        </div>
+                      )}
+                      {!item.isGallery && (
+                        <div className="absolute bottom-4 left-4 md:hidden z-20 pointer-events-none">
+                          <span className="text-white font-bold text-sm tracking-wide uppercase bg-black/80 backdrop-blur-sm px-3 py-1.5 shadow-sm rounded-sm">
+                            {item.title}
+                          </span>
+                        </div>
+                      )}
+                    </>
                   )}
                 </motion.button>
               ))}
             </AnimatePresence>
 
             {displayItems.length === 0 && (
-              <div className="col-span-2 row-span-3 flex items-center justify-center text-gray-400">
-                No items found
+              <div className="absolute inset-0 bg-white z-40 flex items-center justify-center">
+                <p className="text-xl font-normal text-gray-400 tracking-wide">
+                  Nothing yet
+                </p>
               </div>
             )}
           </div>
 
           {/* Down Arrow */}
-          {scrollPos < maxScroll - 10 && displayItems.length > 0 && (
-            <button
-              onClick={() => handleScroll("down")}
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 bg-white/80 p-2 rounded-full hover:bg-white transition-all shadow-md animate-in fade-in cursor-pointer text-black"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="w-6 h-6"
+          {scrollPos < maxScroll - 10 &&
+            displayItems.length > 0 &&
+            category !== "CONTACT" && (
+              <button
+                onClick={() => handleScroll("down")}
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 bg-white/80 p-2 rounded-full hover:bg-white transition-all shadow-md animate-in fade-in cursor-pointer text-black"
               >
-                <path d="m6 9 6 6 6-6" />
-              </svg>
-            </button>
-          )}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-6 h-6"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+            )}
         </div>
       </div>
 
@@ -316,6 +368,20 @@ export default function Hero({
                       Visit Website
                     </a>
                   )}
+                </p>
+              </motion.div>
+            ) : category === "CONTACT" ? (
+              <motion.div
+                key="contact-desc"
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                exit={{ y: "100%", opacity: 0 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute top-0 left-0 w-full"
+              >
+                <p className="text-base md:text-xl font-medium max-w-md leading-relaxed">
+                  I'm always open to discuss new projects, creative ideas or
+                  opportunities to be part of your visions.
                 </p>
               </motion.div>
             ) : (

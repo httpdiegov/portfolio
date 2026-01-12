@@ -61,12 +61,14 @@ export default function Header({
           </div>
 
           <div className="flex flex-col gap-2 text-right">
-            <Link
-              href="/contact"
-              className="text-sm font-medium tracking-wide hover:opacity-70"
+            <button
+              onClick={() => handleCategoryClick("CONTACT")}
+              className={`text-sm font-medium tracking-wide hover:opacity-70 uppercase transition-colors ${
+                activeCategory === "CONTACT" ? "font-bold text-white" : ""
+              }`}
             >
               CONTACT
-            </Link>
+            </button>
             <div className="text-sm font-medium tracking-wide">WHOAMI</div>
           </div>
         </div>
@@ -112,15 +114,17 @@ export default function Header({
               <div className="h-px w-full bg-gray-200 my-4" />
 
               <div className="flex flex-col gap-4">
-                <Link
-                  href="/contact"
-                  className="text-xl font-light tracking-wide uppercase opacity-70 hover:opacity-100"
-                  onClick={() =>
-                    setIsMobileMenuOpen && setIsMobileMenuOpen(false)
+                <button
+                  onClick={() => handleCategoryClick("CONTACT")}
+                  className={
+                    "text-xl font-light tracking-wide uppercase text-left transition-opacity " +
+                    (activeCategory === "CONTACT"
+                      ? "opacity-100 font-medium"
+                      : "opacity-70 hover:opacity-100")
                   }
                 >
                   Contact
-                </Link>
+                </button>
                 <div className="text-xl font-light tracking-wide uppercase opacity-70">
                   Who Am I
                 </div>
