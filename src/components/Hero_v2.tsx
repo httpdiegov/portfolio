@@ -25,7 +25,7 @@ export default function Hero() {
           </div>
           <div className="relative overflow-hidden">
             <Image
-              src="/trueweb1.png"
+              src="/trueweb2.png"
               alt="TrueWeb"
               fill
               className="object-cover"

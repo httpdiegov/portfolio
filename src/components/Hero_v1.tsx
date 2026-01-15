@@ -61,7 +61,7 @@ export default function Hero() {
           <div className="col-span-1 bg-transparent"></div>
           <div className="col-span-4 relative overflow-hidden bg-gray-100 h-full w-full">
             <Image
-              src="/trueweb1.png"
+              src="/trueweb2.png"
               alt="Portrait Dark"
               fill
               className="object-cover"

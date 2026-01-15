@@ -31,7 +31,7 @@ export default function Hero() {
           {/* Col 2, Row 2: Trueweb */}
           <div className="relative overflow-hidden bg-gray-200">
             <Image
-              src="/trueweb1.png"
+              src="/trueweb2.png"
               alt="Features"
               fill
               className="object-cover"
