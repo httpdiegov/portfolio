@@ -24,6 +24,7 @@ export default function Hero({
   const [maxScroll, setMaxScroll] = useState(0);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [shouldPreload, setShouldPreload] = useState(false);
 
   const menuItems = ["ALL", "WEB PROJECTS", "BRANDS", "AUTOMATIONS"];
 
@@ -33,6 +34,14 @@ export default function Hero({
     }
     return item.category === category;
   });
+
+  useEffect(() => {
+    // Enable preloading after initial mount/render
+    const timer = setTimeout(() => {
+      setShouldPreload(true);
+    }, 1000); // Small delay to prioritize main content loading
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     setScrollPos(0);
@@ -122,6 +131,24 @@ export default function Hero({
 
   return (
     <section className="h-dvh w-full flex flex-col md:flex-row overflow-hidden">
+      {/* Background Preloader for Gallery Images */}
+      {shouldPreload && (
+        <div className="hidden">
+          {filteredItems.map((project) =>
+            project.gallery?.map((src, i) => (
+              <Image
+                key={`preload-${project.id}-${i}`}
+                src={src}
+                alt="preload"
+                width={10}
+                height={10}
+                priority={true} // Force browser to fetch immediately when rendered
+              />
+            ))
+          )}
+        </div>
+      )}
+
       {/* Top Half (Mobile): Menu + Mosaic */}
       <div className="w-full h-1/2 md:w-1/2 md:h-full flex flex-col">
         {/* Mobile Horizontal Menu (Visible ONLY on Mobile) */}
@@ -220,7 +247,7 @@ export default function Hero({
             style={{ scrollBehavior: "smooth" }}
           >
             <AnimatePresence mode="popLayout" initial={false}>
-              {displayItems.map((item) => (
+              {displayItems.map((item, index) => (
                 <motion.button
                   layout
                   key={item.id}
@@ -256,10 +283,11 @@ export default function Hero({
                         src={item.src}
                         alt={item.title}
                         fill
+                        priority={index === 0 && !selectedProject} // Prioritize first image in main view
                         className={`object-cover transition-transform duration-700 ${
                           !item.isGallery ? "md:group-hover/tile:scale-105" : ""
                         }`}
-                        sizes="50vw"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                       />
                       {!item.isGallery && (
                         <div className="absolute inset-0 bg-black/0 md:group-hover/tile:bg-black/20 transition-colors flex items-center justify-center opacity-0 md:group-hover/tile:opacity-100 pointer-events-none">
