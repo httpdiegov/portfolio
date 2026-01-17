@@ -21,6 +21,8 @@ export default function Header({
   setIsMobileMenuOpen,
 }: HeaderProps) {
   const handleCategoryClick = (category: string) => {
+    if (isProjectOpen) return; // Disable changing category while project is open
+
     if (setCategory) {
       setCategory(category);
     }
@@ -76,7 +78,14 @@ export default function Header({
               </button>
             </FadeIn>
             <FadeIn delay={1.0} direction="down">
-              <div className="text-sm font-medium tracking-wide">WHOAMI</div>
+              <button
+                onClick={() => handleCategoryClick("WHOAMI")}
+                className={`text-sm font-medium tracking-wide hover:opacity-70 uppercase transition-colors ${
+                  activeCategory === "WHOAMI" ? "font-bold text-white" : ""
+                }`}
+              >
+                WHOAMI
+              </button>
             </FadeIn>
           </div>
         </div>
@@ -139,9 +148,20 @@ export default function Header({
                 >
                   Contact
                 </motion.button>
-                <div className="text-xl font-light tracking-wide uppercase opacity-70">
+                <motion.button
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 }}
+                  onClick={() => handleCategoryClick("WHOAMI")}
+                  className={
+                    "text-xl font-light tracking-wide uppercase text-left transition-opacity " +
+                    (activeCategory === "WHOAMI"
+                      ? "opacity-100 font-medium"
+                      : "opacity-70 hover:opacity-100")
+                  }
+                >
                   Who Am I
-                </div>
+                </motion.button>
               </div>
             </nav>
           </motion.div>

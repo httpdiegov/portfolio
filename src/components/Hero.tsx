@@ -134,8 +134,8 @@ export default function Hero({
     <section className="h-dvh w-full flex flex-col md:flex-row overflow-hidden">
       {/* Background Preloader for Gallery Images */}
       {shouldPreload && (
-        <div className="hidden">
-          {filteredItems.map((project) =>
+        <div style={{ display: "none" }}>
+          {projects.map((project) =>
             project.gallery?.map((src, i) => (
               <Image
                 key={`preload-${project.id}-${i}`}
@@ -144,6 +144,7 @@ export default function Hero({
                 width={10}
                 height={10}
                 priority={true} // Force browser to fetch immediately when rendered
+                unoptimized={true} // Bypass Next.js optimization for raw speed if needed, but priority should suffice
               />
             )),
           )}
@@ -195,9 +196,24 @@ export default function Hero({
                 )}
               </AnimatePresence>
             </button>
-            <div className="text-xs font-bold tracking-wide uppercase opacity-70 whitespace-nowrap">
+            <button
+              onClick={() => handleCategoryClick("WHOAMI")}
+              className="relative text-xs font-bold tracking-wide hover:opacity-70 transition-opacity uppercase whitespace-nowrap pb-1"
+            >
               WHOAMI
-            </div>
+              <AnimatePresence>
+                {category === "WHOAMI" && !selectedProject && (
+                  <motion.div
+                    key="mobile-underline-whoami"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    exit={{ width: "0%" }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="absolute left-0 bottom-0 h-0.5 bg-black"
+                  />
+                )}
+              </AnimatePresence>
+            </button>
           </div>
         </div>
 
@@ -417,6 +433,23 @@ export default function Hero({
                   )}
                 </p>
               </motion.div>
+            ) : category === "WHOAMI" ? (
+              <motion.div
+                key="whoami-desc"
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                exit={{ y: "100%", opacity: 0 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute top-0 left-0 w-full"
+              >
+                <p className="text-base md:text-xl font-medium max-w-md leading-relaxed">
+                  I am Moises, a creative developer passionate about building
+                  digital experiences that merge design and technology.
+                  <br className="mb-4 block" />
+                  My focus is on creating intuitive, high-performance interfaces
+                  that leave a lasting impression.
+                </p>
+              </motion.div>
             ) : category === "CONTACT" ? (
               <motion.div
                 key="contact-desc"
@@ -459,6 +492,42 @@ export default function Hero({
                 </p>
               </motion.div>
             )}
+          </AnimatePresence>
+
+          {/* Right Aligned Duplicate - Only for Main Page */}
+          <AnimatePresence mode="popLayout" initial={true}>
+            {!selectedProject &&
+              category !== "WHOAMI" &&
+              category !== "CONTACT" && (
+                <motion.div
+                  key="main-desc-right"
+                  initial={{ y: "-100%", opacity: 0 }}
+                  animate={{
+                    y: "0%",
+                    opacity: 1,
+                    transition: {
+                      duration: 1.5,
+                      delay: 0.2,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  }}
+                  exit={{
+                    y: "-100%",
+                    opacity: 0,
+                    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                  }}
+                  className="absolute top-0 right-0 w-full flex justify-end pointer-events-none"
+                >
+                  <p className="text-base md:text-xl font-medium max-w-md leading-relaxed text-right pointer-events-auto">
+                    Digital product strategy, brand systems, and intelligent
+                    workflows. From user experience design to custom AI-driven
+                    implementations. We build the tools that empower modern
+                    enterprises.
+                    <br className="mb-4 block" />
+                    Since 2025.
+                  </p>
+                </motion.div>
+              )}
           </AnimatePresence>
         </div>
       </div>
