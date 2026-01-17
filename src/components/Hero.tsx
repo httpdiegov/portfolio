@@ -26,6 +26,8 @@ export default function Hero({
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [shouldPreload, setShouldPreload] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileSlideIndex, setMobileSlideIndex] = useState(0);
 
   const menuItems = ["ALL", "WEB PROJECTS", "BRANDS", "AUTOMATIONS"];
 
@@ -41,11 +43,20 @@ export default function Hero({
     const timer = setTimeout(() => {
       setShouldPreload(true);
     }, 1000); // Small delay to prioritize main content loading
-    return () => clearTimeout(timer);
+
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", checkMobile);
+    };
   }, []);
 
   useEffect(() => {
     setScrollPos(0);
+    setMobileSlideIndex(0);
     if (containerRef.current) {
       containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -406,8 +417,26 @@ export default function Hero({
           </AnimatePresence>
         </div>
 
-        <div className="pb-12 h-auto md:h-64 overflow-hidden relative">
-          <AnimatePresence mode="popLayout" initial={true}>
+        {/* Mobile arrows are now inline with text below */}
+
+        <div
+          className="pb-12 h-auto md:h-64 overflow-visible md:overflow-hidden relative cursor-pointer md:cursor-auto"
+          onClick={() => {
+            if (
+              isMobile &&
+              !selectedProject &&
+              category !== "WHOAMI" &&
+              category !== "CONTACT"
+            ) {
+              setMobileSlideIndex((prev) => (prev === 0 ? 1 : 0));
+            }
+          }}
+        >
+          <AnimatePresence
+            mode="popLayout"
+            initial={true}
+            custom={mobileSlideIndex}
+          >
             {selectedProject ? (
               <motion.div
                 key="project-desc"
@@ -417,7 +446,7 @@ export default function Hero({
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="absolute top-0 left-0 w-full"
               >
-                <p className="text-base md:text-xl font-medium max-w-md leading-relaxed">
+                <p className="text-xs md:text-xl font-medium max-w-md leading-relaxed">
                   {selectedProject.description}
                   <br />
                   <br />
@@ -442,7 +471,7 @@ export default function Hero({
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="absolute top-0 left-0 w-full"
               >
-                <p className="text-base md:text-xl font-medium max-w-2xl leading-relaxed">
+                <p className="text-xs md:text-xl font-medium max-w-2xl leading-relaxed">
                   "Diego" — The human being
                   <br className="mb-4 block" />I lead the creative and strategic
                   direction of this studio. My focus is on empowering brands
@@ -462,75 +491,137 @@ export default function Hero({
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="absolute top-0 left-0 w-full"
               >
-                <p className="text-base md:text-xl font-medium max-w-md leading-relaxed">
+                <p className="text-xs md:text-xl font-medium max-w-md leading-relaxed">
                   I'm always open to discuss new projects, creative ideas or
                   opportunities to be part of your visions.
                 </p>
               </motion.div>
             ) : (
-              <motion.div
-                key="main-desc"
-                initial={{ y: "-100%", opacity: 0 }}
-                animate={{
-                  y: "0%",
-                  opacity: 1,
-                  transition: {
-                    duration: 1.5,
-                    delay: 0.2,
-                    ease: [0.16, 1, 0.3, 1],
-                  },
-                }}
-                exit={{
-                  y: "-100%",
-                  opacity: 0,
-                  transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-                }}
-                className="absolute top-0 left-0 w-full"
-              >
-                <p className="text-base md:text-xl font-medium max-w-md leading-relaxed">
-                  We are evolving from laborers into true creators—designed to
-                  think, elaborate, and bring new ideas to life.
-                  <br className="mb-4 block" />
-                  It's not just a name, it's our purpose.
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              <>
+                {/* Left (Main) Description */}
+                {(!isMobile || mobileSlideIndex === 0) && (
+                  <motion.div
+                    key="main-desc"
+                    initial={
+                      isMobile
+                        ? { x: -20, opacity: 0 }
+                        : { y: "-100%", opacity: 0 }
+                    }
+                    animate={
+                      isMobile
+                        ? { x: 0, opacity: 1 }
+                        : {
+                            y: "0%",
+                            opacity: 1,
+                            transition: {
+                              duration: 1.5,
+                              delay: 0.2,
+                              ease: [0.16, 1, 0.3, 1],
+                            },
+                          }
+                    }
+                    exit={
+                      isMobile
+                        ? { x: -20, opacity: 0 }
+                        : {
+                            y: "-100%",
+                            opacity: 0,
+                            transition: {
+                              duration: 0.5,
+                              ease: [0.16, 1, 0.3, 1],
+                            },
+                          }
+                    }
+                    className="absolute top-0 left-0 w-full"
+                  >
+                    <div className="flex items-start gap-2">
+                      <p className="text-xs md:text-xl font-medium max-w-md leading-relaxed flex-1">
+                        We are evolving from laborers into true
+                        creators—designed to think, elaborate, and bring new
+                        ideas to life.
+                        <br className="mb-4 block" />
+                        It's not just a name, it's our purpose.
+                      </p>
+                      {isMobile && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setMobileSlideIndex(1);
+                          }}
+                          className="text-black p-1 hover:opacity-70 transition-opacity shrink-0 mt-1"
+                        >
+                          <ChevronRight size={20} />
+                        </button>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
 
-          {/* Right Aligned Duplicate - Only for Main Page */}
-          <AnimatePresence mode="popLayout" initial={true}>
-            {!selectedProject &&
-              category !== "WHOAMI" &&
-              category !== "CONTACT" && (
-                <motion.div
-                  key="main-desc-right"
-                  initial={{ y: "-100%", opacity: 0 }}
-                  animate={{
-                    y: "0%",
-                    opacity: 1,
-                    transition: {
-                      duration: 1.5,
-                      delay: 0.2,
-                      ease: [0.16, 1, 0.3, 1],
-                    },
-                  }}
-                  exit={{
-                    y: "-100%",
-                    opacity: 0,
-                    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-                  }}
-                  className="absolute top-0 right-0 w-full flex justify-end pointer-events-none"
-                >
-                  <p className="text-base md:text-xl font-medium max-w-md leading-relaxed text-right pointer-events-auto">
-                    Digital product strategy, brand systems, and intelligent
-                    workflows. From user experience design to custom AI-driven
-                    implementations. We build the tools that empower modern
-                    enterprises.
-                    <br className="mb-4 block" />
-                    Since 2025.
-                  </p>
-                </motion.div>
-              )}
+                {/* Right (Duplicate/Slide) Description */}
+                {(!isMobile || mobileSlideIndex === 1) && (
+                  <motion.div
+                    key="main-desc-right"
+                    initial={
+                      isMobile
+                        ? { x: 20, opacity: 0 }
+                        : { y: "-100%", opacity: 0 }
+                    }
+                    animate={
+                      isMobile
+                        ? { x: 0, opacity: 1 }
+                        : {
+                            y: "0%",
+                            opacity: 1,
+                            transition: {
+                              duration: 1.5,
+                              delay: 0.2,
+                              ease: [0.16, 1, 0.3, 1],
+                            },
+                          }
+                    }
+                    exit={
+                      isMobile
+                        ? { x: 20, opacity: 0 }
+                        : {
+                            y: "-100%",
+                            opacity: 0,
+                            transition: {
+                              duration: 0.5,
+                              ease: [0.16, 1, 0.3, 1],
+                            },
+                          }
+                    }
+                    className={`absolute top-0 ${isMobile ? "left-0" : "right-0"} w-full flex ${isMobile ? "justify-start" : "justify-end"} pointer-events-none`}
+                  >
+                    <div
+                      className={`flex items-start gap-2 ${isMobile ? "" : "justify-end"} pointer-events-auto`}
+                    >
+                      {isMobile && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setMobileSlideIndex(0);
+                          }}
+                          className="text-black p-1 hover:opacity-70 transition-opacity shrink-0 mt-1"
+                        >
+                          <ChevronLeft size={20} />
+                        </button>
+                      )}
+                      <p
+                        className={`text-xs md:text-xl font-medium max-w-md leading-relaxed ${isMobile ? "text-left" : "text-right"}`}
+                      >
+                        Digital product strategy, brand systems, and intelligent
+                        workflows. From user experience design to custom
+                        AI-driven implementations. We build the tools that
+                        empower modern enterprises.
+                        <br className="mb-4 block" />
+                        Since 2025.
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </>
+            )}
           </AnimatePresence>
         </div>
       </div>
