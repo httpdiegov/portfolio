@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { projects, Project } from "@/data/projects";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import FadeIn from "./FadeIn";
 
 interface HeroProps {
   category?: string;
@@ -84,7 +85,7 @@ export default function Hero({
         if (containerRef.current) {
           setMaxScroll(
             containerRef.current.scrollHeight -
-              containerRef.current.clientHeight
+              containerRef.current.clientHeight,
           );
         }
       };
@@ -144,7 +145,7 @@ export default function Hero({
                 height={10}
                 priority={true} // Force browser to fetch immediately when rendered
               />
-            ))
+            )),
           )}
         </div>
       )}
@@ -246,7 +247,7 @@ export default function Hero({
             className="h-full w-full overflow-hidden flex flex-col md:grid md:grid-cols-2 md:auto-rows-[33vh] md:gap-1 md:p-1"
             style={{ scrollBehavior: "smooth" }}
           >
-            <AnimatePresence mode="popLayout" initial={false}>
+            <AnimatePresence mode="popLayout" initial={true}>
               {displayItems.map((item, index) => (
                 <motion.button
                   layout
@@ -254,7 +255,11 @@ export default function Hero({
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: index * 0.05, // Staggered delay based on index
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                  }}
                   className={`relative group/tile overflow-hidden bg-gray-100 flex items-center justify-center ${
                     item.category === "CONTACT"
                       ? "col-span-2 h-auto py-4 bg-white border-b border-black/5 last:border-0 hover:bg-gray-50 transition-colors"
@@ -347,7 +352,7 @@ export default function Hero({
 
       <div className="w-full h-1/2 md:w-1/2 md:h-full flex flex-col justify-end px-6 pt-6 pb-20 md:justify-center md:p-12 bg-white relative overflow-y-auto md:overflow-hidden">
         <div className="flex-[0_0_auto] md:flex-1 flex items-end justify-start pb-4 md:pb-12 overflow-hidden">
-          <AnimatePresence mode="popLayout" initial={false}>
+          <AnimatePresence mode="popLayout" initial={true}>
             {selectedProject ? (
               <motion.h1
                 key="project-title"
@@ -363,9 +368,20 @@ export default function Hero({
               <motion.h1
                 key="main-title"
                 initial={{ y: "-100%", opacity: 0 }}
-                animate={{ y: "0%", opacity: 1 }}
-                exit={{ y: "-100%", opacity: 0 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                animate={{
+                  y: "0%",
+                  opacity: 1,
+                  transition: {
+                    duration: 1.5,
+                    delay: 0.1,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                }}
+                exit={{
+                  y: "-100%",
+                  opacity: 0,
+                  transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                }}
                 className="text-5xl md:text-[8vw] font-normal tracking-tighter leading-none"
               >
                 borntocreate
@@ -375,7 +391,7 @@ export default function Hero({
         </div>
 
         <div className="pb-12 h-auto md:h-64 overflow-hidden relative">
-          <AnimatePresence mode="popLayout" initial={false}>
+          <AnimatePresence mode="popLayout" initial={true}>
             {selectedProject ? (
               <motion.div
                 key="project-desc"
@@ -419,9 +435,20 @@ export default function Hero({
               <motion.div
                 key="main-desc"
                 initial={{ y: "-100%", opacity: 0 }}
-                animate={{ y: "0%", opacity: 1 }}
-                exit={{ y: "-100%", opacity: 0 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                animate={{
+                  y: "0%",
+                  opacity: 1,
+                  transition: {
+                    duration: 1.5,
+                    delay: 0.2,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                }}
+                exit={{
+                  y: "-100%",
+                  opacity: 0,
+                  transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                }}
                 className="absolute top-0 left-0 w-full"
               >
                 <p className="text-base md:text-xl font-medium max-w-md leading-relaxed">

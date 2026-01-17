@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import FadeIn from "./FadeIn";
 
 interface HeaderProps {
   activeCategory?: string;
@@ -34,42 +35,49 @@ export default function Header({
         {/* Desktop Menu - Col 3 */}
         <div className="hidden md:flex col-start-3 justify-between items-start py-6 px-4 pointer-events-auto">
           <div className="flex flex-col gap-2 items-start">
-            {menuItems.map((item) => (
-              <button
-                key={item}
-                onClick={() => handleCategoryClick(item)}
-                className={
-                  "relative cursor-pointer text-sm font-medium tracking-wide hover:opacity-70 transition-opacity text-left uppercase " +
-                  (activeCategory === item && !isProjectOpen ? "font-bold" : "")
-                }
-              >
-                {item}
-                <AnimatePresence>
-                  {activeCategory === item && !isProjectOpen && (
-                    <motion.div
-                      key="underline"
-                      initial={{ width: "0%" }}
-                      animate={{ width: "100%" }}
-                      exit={{ width: "0%" }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                      className="absolute left-0 bottom-0 h-px bg-current"
-                    />
-                  )}
-                </AnimatePresence>
-              </button>
+            {menuItems.map((item, index) => (
+              <FadeIn key={item} delay={0.5 + index * 0.1} direction="down">
+                <button
+                  onClick={() => handleCategoryClick(item)}
+                  className={
+                    "relative cursor-pointer text-sm font-medium tracking-wide hover:opacity-70 transition-opacity text-left uppercase " +
+                    (activeCategory === item && !isProjectOpen
+                      ? "font-bold"
+                      : "")
+                  }
+                >
+                  {item}
+                  <AnimatePresence>
+                    {activeCategory === item && !isProjectOpen && (
+                      <motion.div
+                        key="underline"
+                        initial={{ width: "0%" }}
+                        animate={{ width: "100%" }}
+                        exit={{ width: "0%" }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="absolute left-0 bottom-0 h-px bg-current"
+                      />
+                    )}
+                  </AnimatePresence>
+                </button>
+              </FadeIn>
             ))}
           </div>
 
           <div className="flex flex-col gap-2 text-right">
-            <button
-              onClick={() => handleCategoryClick("CONTACT")}
-              className={`text-sm font-medium tracking-wide hover:opacity-70 uppercase transition-colors ${
-                activeCategory === "CONTACT" ? "font-bold text-white" : ""
-              }`}
-            >
-              CONTACT
-            </button>
-            <div className="text-sm font-medium tracking-wide">WHOAMI</div>
+            <FadeIn delay={0.9} direction="down">
+              <button
+                onClick={() => handleCategoryClick("CONTACT")}
+                className={`text-sm font-medium tracking-wide hover:opacity-70 uppercase transition-colors ${
+                  activeCategory === "CONTACT" ? "font-bold text-white" : ""
+                }`}
+              >
+                CONTACT
+              </button>
+            </FadeIn>
+            <FadeIn delay={1.0} direction="down">
+              <div className="text-sm font-medium tracking-wide">WHOAMI</div>
+            </FadeIn>
           </div>
         </div>
       </header>
@@ -97,8 +105,11 @@ export default function Header({
 
             <nav className="flex-1 flex flex-col justify-center items-start gap-8">
               <div className="flex flex-col gap-4">
-                {menuItems.map((item) => (
-                  <button
+                {menuItems.map((item, index) => (
+                  <motion.button
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + index * 0.1 }}
                     key={item}
                     onClick={() => handleCategoryClick(item)}
                     className={
@@ -107,14 +118,17 @@ export default function Header({
                     }
                   >
                     {item}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
 
               <div className="h-px w-full bg-gray-200 my-4" />
 
               <div className="flex flex-col gap-4">
-                <button
+                <motion.button
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 }}
                   onClick={() => handleCategoryClick("CONTACT")}
                   className={
                     "text-xl font-light tracking-wide uppercase text-left transition-opacity " +
@@ -124,7 +138,7 @@ export default function Header({
                   }
                 >
                   Contact
-                </button>
+                </motion.button>
                 <div className="text-xl font-light tracking-wide uppercase opacity-70">
                   Who Am I
                 </div>
