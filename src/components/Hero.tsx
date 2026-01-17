@@ -442,12 +442,15 @@ export default function Hero({
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="absolute top-0 left-0 w-full"
               >
-                <p className="text-base md:text-xl font-medium max-w-md leading-relaxed">
-                  I am Moises, a creative developer passionate about building
-                  digital experiences that merge design and technology.
-                  <br className="mb-4 block" />
-                  My focus is on creating intuitive, high-performance interfaces
-                  that leave a lasting impression.
+                <p className="text-base md:text-xl font-medium max-w-2xl leading-relaxed">
+                  "Diego" — The human being
+                  <br className="mb-4 block" />I lead the creative and strategic
+                  direction of this studio. My focus is on empowering brands
+                  through intelligent systems and high-end interfaces. I
+                  translate complex technological power into meaningful,
+                  real-world growth for brands and businesses.
+                  <br />
+                  Human-led, technology-driven.
                 </p>
               </motion.div>
             ) : category === "CONTACT" ? (
