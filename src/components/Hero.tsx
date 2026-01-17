@@ -381,8 +381,8 @@ export default function Hero({
         </div>
       </div>
 
-      <div className="w-full h-1/2 md:w-1/2 md:h-full flex flex-col justify-end px-6 pt-6 pb-20 md:justify-center md:p-12 bg-white relative overflow-y-auto md:overflow-hidden">
-        <div className="flex-[0_0_auto] md:flex-1 flex items-end justify-start pb-4 md:pb-12 overflow-hidden z-10 bg-white relative">
+      <div className="w-full h-1/2 md:w-1/2 md:h-full flex flex-col justify-start md:justify-end px-6 pt-32 pb-12 md:px-12 md:pb-12 bg-white relative overflow-y-auto md:overflow-hidden">
+        <div className="flex-none flex items-end justify-start pb-8 md:pb-20 z-10 bg-white relative">
           <AnimatePresence mode="popLayout" initial={true}>
             {selectedProject ? (
               <motion.h1
@@ -398,17 +398,15 @@ export default function Hero({
             ) : (
               <motion.h1
                 key="main-title"
-                initial={hasMounted ? { y: "-100%", opacity: 0 } : false}
+                initial={{ y: "100%", opacity: 0 }}
                 animate={{
                   y: "0%",
                   opacity: 1,
-                  transition: hasMounted
-                    ? {
-                        duration: 1.5,
-                        delay: 0.1,
-                        ease: [0.16, 1, 0.3, 1],
-                      }
-                    : { duration: 0 },
+                  transition: {
+                    duration: 1.5,
+                    delay: 0.1,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
                 }}
                 exit={{
                   y: "-100%",
@@ -426,7 +424,7 @@ export default function Hero({
         {/* Mobile arrows are now inline with text below */}
 
         <div
-          className="pb-12 h-auto md:h-64 overflow-visible md:overflow-hidden relative cursor-pointer md:cursor-auto"
+          className="relative min-h-[160px] md:flex md:flex-row md:gap-8 md:items-start overflow-visible md:overflow-hidden cursor-pointer md:cursor-auto"
           onClick={() => {
             if (
               isMobile &&
@@ -446,13 +444,13 @@ export default function Hero({
             {selectedProject ? (
               <motion.div
                 key="project-desc"
-                initial={{ y: "100%", opacity: 0 }}
+                initial={hasMounted ? { y: "100%", opacity: 0 } : false}
                 animate={{ y: "0%", opacity: 1 }}
                 exit={{ y: "100%", opacity: 0 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="relative md:absolute md:top-0 md:left-0 w-full"
+                className="absolute top-0 left-0 w-full"
               >
-                <p className="text-sm md:text-xl font-medium max-w-md leading-relaxed">
+                <p className="text-xs md:text-xl font-medium max-w-md leading-relaxed">
                   {selectedProject.description}
                   <br />
                   <br />
@@ -471,13 +469,13 @@ export default function Hero({
             ) : category === "WHOAMI" ? (
               <motion.div
                 key="whoami-desc"
-                initial={{ y: "100%", opacity: 0 }}
+                initial={hasMounted ? { y: "100%", opacity: 0 } : false}
                 animate={{ y: "0%", opacity: 1 }}
                 exit={{ y: "100%", opacity: 0 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="relative md:absolute md:top-0 md:left-0 w-full"
+                className="absolute top-0 left-0 w-full"
               >
-                <p className="text-sm md:text-xl font-medium max-w-2xl leading-relaxed">
+                <p className="text-xs md:text-xl font-medium max-w-2xl leading-relaxed">
                   "Diego" — The human being
                   <br className="mb-4 block" />I lead the creative and strategic
                   direction of this studio. My focus is on empowering brands
@@ -491,13 +489,13 @@ export default function Hero({
             ) : category === "CONTACT" ? (
               <motion.div
                 key="contact-desc"
-                initial={{ y: "100%", opacity: 0 }}
+                initial={hasMounted ? { y: "100%", opacity: 0 } : false}
                 animate={{ y: "0%", opacity: 1 }}
                 exit={{ y: "100%", opacity: 0 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="relative md:absolute md:top-0 md:left-0 w-full"
+                className="absolute top-0 left-0 w-full"
               >
-                <p className="text-sm md:text-xl font-medium max-w-md leading-relaxed">
+                <p className="text-xs md:text-xl font-medium max-w-md leading-relaxed">
                   I'm always open to discuss new projects, creative ideas or
                   opportunities to be part of your visions.
                 </p>
@@ -505,29 +503,26 @@ export default function Hero({
             ) : (
               <>
                 {/* Left (Main) Description */}
-                {(!isMobile || mobileSlideIndex === 0) && (
+                {(!isMobile || mobileSlideIndex === 0 || !hasMounted) && (
                   <motion.div
                     key="main-desc"
                     initial={
-                      hasMounted
-                        ? isMobile
-                          ? { x: -20, opacity: 0 }
-                          : { y: "-100%", opacity: 0 }
-                        : false
+                      isMobile
+                        ? { x: -20, opacity: 0 }
+                        : { y: "100%", opacity: 0 }
                     }
                     animate={
                       isMobile
-                        ? { x: 0, opacity: 1 }
+                        ? { x: 0, y: "0%", opacity: 1 }
                         : {
                             y: "0%",
+                            x: 0,
                             opacity: 1,
-                            transition: hasMounted
-                              ? {
-                                  duration: 1.5,
-                                  delay: 0.2,
-                                  ease: [0.16, 1, 0.3, 1],
-                                }
-                              : { duration: 0 },
+                            transition: {
+                              duration: 1.5,
+                              delay: 0.2,
+                              ease: [0.16, 1, 0.3, 1],
+                            },
                           }
                     }
                     exit={
@@ -542,10 +537,10 @@ export default function Hero({
                             },
                           }
                     }
-                    className="relative md:absolute md:top-0 md:left-0 w-full"
+                    className="absolute md:relative top-0 left-0 w-full md:w-1/2"
                   >
                     <div className="flex items-start gap-2">
-                      <p className="text-sm md:text-xl font-medium max-w-md leading-relaxed flex-1">
+                      <p className="text-xs md:text-lg font-medium max-w-md leading-relaxed flex-1">
                         We are evolving from laborers into true
                         creators—designed to think, elaborate, and bring new
                         ideas to life.
@@ -566,19 +561,21 @@ export default function Hero({
                 )}
 
                 {/* Right (Duplicate/Slide) Description */}
-                {(!isMobile || mobileSlideIndex === 1) && (
+                {((hasMounted && isMobile && mobileSlideIndex === 1) ||
+                  !isMobile) && (
                   <motion.div
                     key="main-desc-right"
                     initial={
                       isMobile
                         ? { x: 20, opacity: 0 }
-                        : { y: "-100%", opacity: 0 }
+                        : { y: "100%", opacity: 0 }
                     }
                     animate={
                       isMobile
-                        ? { x: 0, opacity: 1 }
+                        ? { x: 0, y: "0%", opacity: 1 }
                         : {
                             y: "0%",
+                            x: 0,
                             opacity: 1,
                             transition: {
                               duration: 1.5,
@@ -599,7 +596,7 @@ export default function Hero({
                             },
                           }
                     }
-                    className="relative md:absolute md:top-0 left-0 md:right-0 md:left-auto w-full flex justify-start md:justify-end pointer-events-none"
+                    className="absolute md:relative top-0 left-0 w-full md:w-1/2 flex justify-start md:justify-end pointer-events-none"
                   >
                     <div className="flex items-start gap-2 md:justify-end pointer-events-auto">
                       <button
@@ -611,7 +608,7 @@ export default function Hero({
                       >
                         <ChevronLeft size={20} />
                       </button>
-                      <p className="text-sm md:text-xl font-medium max-w-md leading-relaxed text-left md:text-right">
+                      <p className="text-xs md:text-lg font-medium max-w-md leading-relaxed text-left md:text-right">
                         Digital product strategy, brand systems, and intelligent
                         workflows. From user experience design to custom
                         AI-driven implementations. We build the tools that
