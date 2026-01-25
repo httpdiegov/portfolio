@@ -1,13 +1,13 @@
 import Image from "next/image";
-
-const projects = [
-  { id: 1, name: "FRAGMENTS", category: "BRAND IDENTITY", image: "/hero.png" }, // Using hero image as placeholder
-  { id: 2, name: "JOOMA", category: "MARKETING", image: "/hero.png" },
-  { id: 3, name: "ADIDAS", category: "BRAND IDENTITY", image: "/hero.png" },
-  { id: 4, name: "LACOSTE", category: "DESIGN", image: "/hero.png" },
-];
+import { projects } from "../data/projects";
 
 export default function ProjectList() {
+  const brandProjects = projects.filter(
+    (project) => project.category === "BRANDS",
+  );
+
+  if (brandProjects.length === 0) return null;
+
   return (
     <section id="works" className="px-4 md:px-8 lg:px-12 py-12">
       <div className="flex justify-between items-end mb-12 border-b border-gray-200 pb-4">
@@ -16,19 +16,19 @@ export default function ProjectList() {
       </div>
 
       <div className="space-y-0">
-        {projects.map((project) => (
+        {brandProjects.map((project) => (
           <div
             key={project.id}
             className="group border-b border-gray-200 py-12 flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer hover:bg-gray-50 transition-colors px-2"
           >
             <h3 className="text-2xl md:text-4xl font-medium mb-4 md:mb-0">
-              {project.name}
+              {project.title}
             </h3>
 
             <div className="hidden md:block w-32 h-20 relative opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <Image
                 src={project.image}
-                alt={project.name}
+                alt={project.title}
                 fill
                 className="object-cover"
               />

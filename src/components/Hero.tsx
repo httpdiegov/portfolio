@@ -382,8 +382,13 @@ export default function Hero({
       </div>
 
       <div className="w-full h-1/2 md:w-1/2 md:h-full flex flex-col justify-start md:justify-end px-6 pt-32 pb-12 md:px-12 md:pb-12 bg-white relative overflow-y-auto md:overflow-hidden">
-        <div className="flex-none flex items-end justify-start pb-8 md:pb-20 z-10 bg-white relative">
-          <AnimatePresence mode="popLayout" initial={true}>
+        <div className="flex-none relative z-10 bg-white w-full">
+          {/* Título Fantasma (Invisible) para reservar el espacio exacto y evitar saltos */}
+          <h1 className="text-5xl md:text-[8vw] font-normal tracking-tighter leading-none opacity-0 invisible pb-8 md:pb-20 pointer-events-none select-none">
+            borntocreate
+          </h1>
+
+          <AnimatePresence initial={true}>
             {selectedProject ? (
               <motion.h1
                 key="project-title"
@@ -391,7 +396,7 @@ export default function Hero({
                 animate={{ y: "0%", opacity: 1 }}
                 exit={{ y: "100%", opacity: 0 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="text-5xl md:text-[8vw] font-normal tracking-tighter leading-none"
+                className="absolute bottom-8 md:bottom-20 left-0 w-full text-5xl md:text-[8vw] font-normal tracking-tighter leading-none"
               >
                 {selectedProject.title}
               </motion.h1>
@@ -413,7 +418,7 @@ export default function Hero({
                   opacity: 0,
                   transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
                 }}
-                className="text-5xl md:text-[8vw] font-normal tracking-tighter leading-none"
+                className="absolute bottom-8 md:bottom-20 left-0 w-full text-5xl md:text-[8vw] font-normal tracking-tighter leading-none"
               >
                 borntocreate
               </motion.h1>
