@@ -21,7 +21,6 @@ export const projects: Project[] = [
       "/trueweb/trueweb2.png",
       "/trueweb/trueweb3.png",
       "/trueweb/trueweb4.png",
-      "/trueweb/trueweb5.png",
     ],
     category: "WEB PROJECTS",
     span: "",
