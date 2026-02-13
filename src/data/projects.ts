@@ -8,6 +8,7 @@ export interface Project {
   span?: string; // Grid span class (e.g., "col-span-2", "row-span-2")
   tags: string[];
   link?: string;
+  buttonText?: string;
   date: string;
 }
 
@@ -39,6 +40,17 @@ export const projects: Project[] = [
     tags: ["Next.js", "E-commerce"],
     link: "https://www.borntocreate.dev",
     date: "2024-05-01",
+  },
+  {
+    id: "automarket",
+    title: "AutoMarket",
+    description: "Coming Soon...",
+    image: "/automarket/automarket1.png",
+    category: "WEB PROJECTS",
+    tags: ["Coming Soon"],
+    link: "",
+    buttonText: "Coming Soon...",
+    date: "2024-06-01",
   },
   {
     id: "contact-email",

@@ -27,12 +27,20 @@ export default function WebProjects() {
                 index % 2 === 1 ? "lg:order-2" : ""
               }`}
             >
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-              />
+              {project.image ? (
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm tracking-widest uppercase">
+                    Coming Soon
+                  </span>
+                </div>
+              )}
               <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-xs uppercase tracking-wider border border-black/5">
                 Featured
               </div>
@@ -71,7 +79,7 @@ export default function WebProjects() {
                     rel="noopener noreferrer"
                     className="text-xs uppercase tracking-widest border-b border-black pb-1 hover:text-gray-600 transition-colors"
                   >
-                    VIEW MORE
+                    {project.buttonText || "VIEW MORE"}
                   </a>
                 </div>
               </div>
