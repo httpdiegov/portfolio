@@ -54,12 +54,12 @@ export const projects: Project[] = [
   },
   {
     id: "contact-email",
-    title: "diegovergara2712@gmail.com",
+    title: "diegov@borntocreate.dev",
     description: "Email",
     image: "", // No image for contact list
     category: "CONTACT",
     tags: ["Email"],
-    link: "mailto:diegovergara2712@gmail.com",
+    link: "mailto:diegov@borntocreate.dev",
     date: "",
   },
 
