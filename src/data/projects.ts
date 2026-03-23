@@ -7,6 +7,11 @@ export interface Project {
   category: "WEB PROJECTS" | "BRANDS" | "AUTOMATIONS" | "CONTACT"; // Strict categories for filtering
   span?: string; // Grid span class (e.g., "col-span-2", "row-span-2")
   tags: string[];
+  features?: { // Project features - shown when toggled
+    icon: string; // Icon name (lucide-react or emoji)
+    label: string; // Feature name
+    description?: string; // Optional short description
+  }[];
   link?: string;
   buttonText?: string;
   date: string;
@@ -28,6 +33,12 @@ export const projects: Project[] = [
     tags: ["Next.js", "E-commerce"],
     link: "https://www.truevintage.pe",
     date: "2024-05-01",
+    features: [
+      { icon: "", label: "WhatsApp Integration" },
+      { icon: "", label: "Mobile Responsive" },
+      { icon: "", label: "SSR" },
+      { icon: "", label: "N8N Integration" },
+    ],
   },
   {
     id: "linktree",
@@ -40,6 +51,9 @@ export const projects: Project[] = [
     tags: ["Next.js", "E-commerce"],
     link: "https://www.borntocreate.dev",
     date: "2024-05-01",
+    features: [
+      { icon: "", label: "Mobile Responsive" },
+    ],
   },
   {
     id: "automarket",

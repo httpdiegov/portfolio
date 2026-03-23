@@ -29,6 +29,7 @@ export default function Hero({
   const [isMobile, setIsMobile] = useState(false);
   const [mobileSlideIndex, setMobileSlideIndex] = useState(0);
   const [hasMounted, setHasMounted] = useState(false);
+  const [showFeatures, setShowFeatures] = useState(false);
 
   const menuItems = ["ALL", "WEB PROJECTS", "BRANDS", "AUTOMATIONS"];
 
@@ -124,6 +125,7 @@ export default function Hero({
 
   const closeProject = () => {
     setSelectedProject(null);
+    setShowFeatures(false);
     if (onViewChange) onViewChange(false);
   };
 
@@ -457,8 +459,13 @@ export default function Hero({
               >
                 <p className="text-xs md:text-xl font-medium max-w-md leading-relaxed">
                   {selectedProject.description}
-                  <br />
-                  <br />
+                </p>
+                
+                {/* Action Buttons Row - With inline features */}
+                <motion.div 
+                  layout
+                  className="flex flex-wrap items-center gap-4 mt-6"
+                >
                   {selectedProject.link && (
                     <a
                       href={selectedProject.link}
@@ -466,10 +473,70 @@ export default function Hero({
                       rel="noopener noreferrer"
                       className="inline-block border-b border-black pb-1 hover:opacity-60 transition-opacity uppercase text-sm tracking-widest"
                     >
-                      Visit Website
+                      Visit Website ↗
                     </a>
                   )}
-                </p>
+                  
+                  {/* Features Toggle Button - Fixed width to avoid overlap */}
+                  {selectedProject.features && selectedProject.features.length > 0 && (
+                    <button
+                      onClick={() => setShowFeatures(!showFeatures)}
+                      className="flex items-center gap-2 text-xs uppercase tracking-widest border border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition-all duration-300 justify-center shrink-0 min-w-[110px]"
+                    >
+                      <span className={`transform transition-transform duration-300 ${showFeatures ? 'rotate-90' : ''}`}>
+                        ▶
+                      </span>
+                      {showFeatures ? 'Hide' : 'Features'}
+                    </button>
+                  )}
+                  
+                  {/* Features appear inline to the right */}
+                  <AnimatePresence mode="popLayout">
+                    {selectedProject.features && selectedProject.features.length > 0 && showFeatures && (
+                      <motion.div 
+                        className="flex items-center gap-2 ml-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.4 }}
+                      >
+                        {selectedProject.features.map((feature, idx, arr) => {
+                          // Reverse exit order: last feature exits first
+                          const exitDelay = (arr.length - 1 - idx) * 0.06;
+                          return (
+                            <motion.span
+                              key={idx}
+                              initial={{ x: -20, opacity: 0, scale: 0.9 }}
+                              animate={{ 
+                                x: 0, 
+                                opacity: 1, 
+                                scale: 1,
+                                transition: {
+                                  duration: 0.35,
+                                  delay: idx * 0.06,
+                                  ease: [0.16, 1, 0.3, 1]
+                                }
+                              }}
+                              exit={{ 
+                                x: -20, 
+                                opacity: 0, 
+                                scale: 0.9,
+                                transition: {
+                                  duration: 0.4,
+                                  delay: exitDelay,
+                                  ease: [0.16, 1, 0.3, 1]
+                                }
+                              }}
+                              className="text-xs font-medium uppercase tracking-wider text-gray-600 border-b border-gray-300 pb-0.5 hover:text-black hover:border-black transition-colors cursor-default whitespace-nowrap"
+                            >
+                              {feature.label}
+                            </motion.span>
+                          );
+                        })}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               </motion.div>
             ) : category === "WHOAMI" ? (
               <motion.div
