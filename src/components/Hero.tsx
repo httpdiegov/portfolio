@@ -149,25 +149,6 @@ export default function Hero({
 
   return (
     <section className="h-dvh w-full flex flex-col md:flex-row overflow-hidden">
-      {/* Background Preloader for Gallery Images */}
-      {shouldPreload && (
-        <div style={{ display: "none" }}>
-          {projects.map((project) =>
-            project.gallery?.map((src, i) => (
-              <Image
-                key={`preload-${project.id}-${i}`}
-                src={src}
-                alt="preload"
-                width={10}
-                height={10}
-                priority={true} // Force browser to fetch immediately when rendered
-                unoptimized={true} // Bypass Next.js optimization for raw speed if needed, but priority should suffice
-              />
-            )),
-          )}
-        </div>
-      )}
-
       {/* Top Half (Mobile): Menu + Mosaic */}
       <div className="w-full h-1/2 md:w-1/2 md:h-full flex flex-col">
         {/* Mobile Horizontal Menu (Visible ONLY on Mobile) */}
