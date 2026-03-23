@@ -15,7 +15,7 @@ interface HeroProps {
 }
 
 export default function Hero({
-  category = "ALL",
+  category = "PROYECTOS",
   setCategory,
   onViewChange,
   setIsMobileMenuOpen,
@@ -31,13 +31,10 @@ export default function Hero({
   const [hasMounted, setHasMounted] = useState(false);
   const [showFeatures, setShowFeatures] = useState(false);
 
-  const menuItems = ["ALL", "WEB PROJECTS", "BRANDS", "AUTOMATIONS"];
+  const menuItems = ["PROYECTOS"];
 
   const filteredItems = projects.filter((item) => {
-    if (category === "ALL") {
-      return item.category !== "CONTACT";
-    }
-    return item.category === category;
+    return item.category !== "CONTACT";
   });
 
   useEffect(() => {
