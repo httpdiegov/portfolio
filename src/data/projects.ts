@@ -64,7 +64,7 @@ export const projects: Project[] = [
     category: "WEB PROJECTS",
     span: "",
     tags: ["Next.js", "Portfolio"],
-    link: "",
+    link: "https://borntocreate.studio",
     date: "2024-06-01",
     features: [
       { icon: "", label: "Mobile Responsive" },
