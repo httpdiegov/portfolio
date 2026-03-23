@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { projects, Project } from "@/data/projects";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import FadeIn from "./FadeIn";
 
 interface HeroProps {
@@ -443,16 +443,16 @@ export default function Hero({
                 {/* Action Buttons Row - With inline features */}
                 <motion.div 
                   layout
-                  className="flex flex-wrap items-center gap-4 mt-6"
+                  className="flex items-start gap-4 mt-6 flex-wrap"
                 >
                   {selectedProject.link && (
                     <a
                       href={selectedProject.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block border-b border-black pb-1 hover:opacity-60 transition-opacity uppercase text-sm tracking-widest"
+                      className="inline-flex items-center gap-1.5 border-b border-black pb-1 hover:opacity-60 transition-opacity uppercase text-sm tracking-widest"
                     >
-                      Visit Website ↗
+                      Visit Website <ExternalLink size={14} />
                     </a>
                   )}
                   
@@ -460,11 +460,9 @@ export default function Hero({
                   {selectedProject.features && selectedProject.features.length > 0 && (
                     <button
                       onClick={() => setShowFeatures(!showFeatures)}
-                      className="flex items-center gap-2 text-xs uppercase tracking-widest border border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition-all duration-300 justify-center shrink-0 min-w-[110px]"
+                      className="inline-flex items-center gap-2 text-xs uppercase tracking-widest border border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition-all duration-300 shrink-0 w-[110px] justify-center"
                     >
-                      <span className={`transform transition-transform duration-300 ${showFeatures ? 'rotate-90' : ''}`}>
-                        ▶
-                      </span>
+                      <ChevronRight size={12} className={`transition-transform duration-300 ${showFeatures ? 'rotate-90' : ''}`} />
                       {showFeatures ? 'Hide' : 'Features'}
                     </button>
                   )}
