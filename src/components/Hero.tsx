@@ -256,6 +256,7 @@ export default function Hero({
           {scrollPos > 10 && category !== "CONTACT" && (
             <button
               onClick={() => handleScroll("up")}
+              aria-label="Scroll up"
               className="absolute top-4 left-1/2 -translate-x-1/2 z-40 bg-white/80 p-2 rounded-full hover:bg-white transition-all shadow-md animate-in fade-in cursor-pointer text-black"
             >
               <svg
@@ -362,6 +363,7 @@ export default function Hero({
             category !== "CONTACT" && (
               <button
                 onClick={() => handleScroll("down")}
+                aria-label="Scroll down"
                 className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 bg-white/80 p-2 rounded-full hover:bg-white transition-all shadow-md animate-in fade-in cursor-pointer text-black"
               >
                 <svg
@@ -624,6 +626,7 @@ export default function Hero({
                           e.stopPropagation();
                           setMobileSlideIndex(1);
                         }}
+                        aria-label="Next"
                         className="md:hidden text-black p-1 hover:opacity-70 transition-opacity shrink-0 mt-1"
                       >
                         <ChevronRight size={20} />
@@ -676,6 +679,7 @@ export default function Hero({
                           e.stopPropagation();
                           setMobileSlideIndex(0);
                         }}
+                        aria-label="Previous"
                         className="md:hidden text-black p-1 hover:opacity-70 transition-opacity shrink-0 mt-1"
                       >
                         <ChevronLeft size={20} />
