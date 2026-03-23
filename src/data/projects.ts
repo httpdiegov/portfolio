@@ -68,6 +68,8 @@ export const projects: Project[] = [
     date: "2024-06-01",
     features: [
       { icon: "", label: "Mobile Responsive" },
+      { icon: "", label: "Fast Loading" },
+      { icon: "", label: "SEO Optimized" },
     ],
   },
   {
