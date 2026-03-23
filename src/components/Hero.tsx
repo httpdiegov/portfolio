@@ -15,7 +15,7 @@ interface HeroProps {
 }
 
 export default function Hero({
-  category = "PROYECTOS",
+  category = "PROJECTS",
   setCategory,
   onViewChange,
   setIsMobileMenuOpen,
@@ -30,8 +30,9 @@ export default function Hero({
   const [mobileSlideIndex, setMobileSlideIndex] = useState(0);
   const [hasMounted, setHasMounted] = useState(false);
   const [showFeatures, setShowFeatures] = useState(false);
+  const [savedMobileSlideIndex, setSavedMobileSlideIndex] = useState(0);
 
-  const menuItems = ["PROYECTOS"];
+  const menuItems = ["PROJECTS"];
 
   const filteredItems = projects.filter((item) => {
     return item.category !== "CONTACT";
@@ -112,6 +113,7 @@ export default function Hero({
   }, [filteredItems, selectedProject, category]); // Added category to ensure reflow recalculation
 
   const openProject = (project: Project) => {
+    setSavedMobileSlideIndex(mobileSlideIndex);
     setSelectedProject(project);
     if (onViewChange) onViewChange(true);
     setScrollPos(0);
@@ -123,6 +125,7 @@ export default function Hero({
   const closeProject = () => {
     setSelectedProject(null);
     setShowFeatures(false);
+    setMobileSlideIndex(savedMobileSlideIndex);
     if (onViewChange) onViewChange(false);
   };
 
