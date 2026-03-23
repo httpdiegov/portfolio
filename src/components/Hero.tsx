@@ -116,10 +116,6 @@ export default function Hero({
     setSavedMobileSlideIndex(mobileSlideIndex);
     setSelectedProject(project);
     if (onViewChange) onViewChange(true);
-    setScrollPos(0);
-    if (containerRef.current) {
-      containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
-    }
   };
 
   const closeProject = () => {
