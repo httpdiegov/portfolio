@@ -32,6 +32,7 @@ export default function Hero({
   const [showFeatures, setShowFeatures] = useState(false);
   const [savedMobileSlideIndex, setSavedMobileSlideIndex] = useState(0);
   const [savedScrollPos, setSavedScrollPos] = useState(0);
+  const isClosingProjectRef = useRef(false);
 
   const menuItems = ["PROJECTS"];
 
@@ -59,10 +60,13 @@ export default function Hero({
   }, []);
 
   useEffect(() => {
-    setScrollPos(0);
-    setMobileSlideIndex(0);
-    if (containerRef.current) {
-      containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    // Don't reset scroll when a project is selected or when closing a project
+    if (!selectedProject && !isClosingProjectRef.current) {
+      setScrollPos(0);
+      setMobileSlideIndex(0);
+      if (containerRef.current) {
+        containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+      }
     }
   }, [category]);
 
@@ -121,6 +125,7 @@ export default function Hero({
   };
 
   const closeProject = () => {
+    isClosingProjectRef.current = true;
     setSelectedProject(null);
     setShowFeatures(false);
     setMobileSlideIndex(savedMobileSlideIndex);
@@ -130,7 +135,8 @@ export default function Hero({
       if (containerRef.current) {
         containerRef.current.scrollTo({ top: savedScrollPos, behavior: "instant" as ScrollBehavior });
       }
-    }, 50);
+      isClosingProjectRef.current = false;
+    }, 100);
     if (onViewChange) onViewChange(false);
   };
 
