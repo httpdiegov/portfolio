@@ -70,21 +70,41 @@ export default function Header({
             <FadeIn delay={0.9} direction="down">
               <button
                 onClick={() => handleCategoryClick("CONTACT")}
-                className={`text-sm font-medium tracking-wide hover:opacity-70 uppercase transition-colors ${
-                  activeCategory === "CONTACT" ? "font-bold text-white" : ""
-                }`}
+                className="relative text-sm font-medium tracking-wide hover:opacity-70 uppercase transition-colors"
               >
                 CONTACT
+                <AnimatePresence>
+                  {activeCategory === "CONTACT" && !isProjectOpen && (
+                    <motion.div
+                      key="underline-contact"
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      exit={{ width: "0%" }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="absolute right-0 bottom-0 h-px bg-current"
+                    />
+                  )}
+                </AnimatePresence>
               </button>
             </FadeIn>
             <FadeIn delay={1.0} direction="down">
               <button
                 onClick={() => handleCategoryClick("WHOAMI")}
-                className={`text-sm font-medium tracking-wide hover:opacity-70 uppercase transition-colors ${
-                  activeCategory === "WHOAMI" ? "font-bold text-white" : ""
-                }`}
+                className="relative text-sm font-medium tracking-wide hover:opacity-70 uppercase transition-colors"
               >
                 WHOAMI
+                <AnimatePresence>
+                  {activeCategory === "WHOAMI" && !isProjectOpen && (
+                    <motion.div
+                      key="underline-whoami"
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      exit={{ width: "0%" }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="absolute right-0 bottom-0 h-px bg-current"
+                    />
+                  )}
+                </AnimatePresence>
               </button>
             </FadeIn>
           </div>

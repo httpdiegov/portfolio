@@ -37,6 +37,9 @@ export default function Hero({
   const menuItems = ["PROJECTS"];
 
   const filteredItems = projects.filter((item) => {
+    if (category === "CONTACT") {
+      return item.category === "CONTACT";
+    }
     return item.category !== "CONTACT";
   });
 
@@ -227,7 +230,7 @@ export default function Hero({
         </div>
 
         {/* Left: Interactive Mosaic (Full width on mobile and desktop) */}
-        <div className="flex-1 w-full bg-gray-100 relative group overflow-hidden">
+        <div className={`flex-1 w-full relative group overflow-hidden ${category === "CONTACT" ? "bg-white" : "bg-gray-100"}`}>
           {/* Back Button (Only visible when project is selected) */}
           <AnimatePresence>
             {selectedProject && (
@@ -270,26 +273,38 @@ export default function Hero({
 
           <div
             ref={containerRef}
-            className="h-full w-full overflow-hidden flex flex-col md:grid md:grid-cols-2 md:auto-rows-[33vh] md:gap-1 md:p-1"
+            className={`h-full w-full overflow-hidden ${
+              category === "CONTACT"
+                ? "flex flex-col overflow-y-auto"
+                : "flex flex-col md:grid md:grid-cols-2 md:auto-rows-[33vh] md:gap-1 md:p-1"
+            }`}
             style={{ scrollBehavior: "smooth" }}
           >
             <AnimatePresence mode="popLayout" initial={true}>
               {displayItems.map((item, index) => (
                 <motion.button
-                  layout
+                  layout={!item.isGallery}
                   key={item.id}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: index * 0.05, // Staggered delay based on index
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                  className={`relative group/tile overflow-hidden bg-gray-100 flex items-center justify-center ${
+                  transition={
+                    item.isGallery
+                      ? {
+                          duration: 0.4,
+                          delay: 0, // No stagger for gallery - instant transition
+                          ease: [0.25, 0.46, 0.45, 0.94],
+                        }
+                      : {
+                          duration: 0.5,
+                          delay: index * 0.05, // Staggered delay for project grid
+                          ease: [0.25, 0.46, 0.45, 0.94],
+                        }
+                  }
+                  className={`relative group/tile overflow-hidden flex items-center justify-center ${
                     item.category === "CONTACT"
-                      ? "col-span-2 h-auto py-4 bg-white border-b border-black/5 last:border-0 hover:bg-gray-50 transition-colors"
-                      : "md:h-full w-full h-full flex-none"
+                      ? "w-full py-6 md:py-4 bg-white border-b border-black/5 last:border-0 hover:bg-gray-50 transition-colors"
+                      : "md:h-full w-full h-full flex-none bg-gray-100"
                   } ${item.span || ""}`}
                   onClick={() => {
                     if (item.category === "CONTACT") {
