@@ -555,7 +555,7 @@ export default function Hero({
                 className="absolute top-0 left-0 w-full"
               >
                 <p className="text-xs md:text-xl font-medium max-w-2xl leading-relaxed">
-                  "Diego" — The human being
+                  Diego, 20 — The human being
                   <br className="mb-4 block" />I lead the creative and strategic
                   direction of this studio. My focus is on empowering brands
                   through intelligent systems and high-end interfaces. I
