@@ -31,6 +31,7 @@ export default function Hero({
   const [hasMounted, setHasMounted] = useState(false);
   const [showFeatures, setShowFeatures] = useState(false);
   const [savedMobileSlideIndex, setSavedMobileSlideIndex] = useState(0);
+  const [savedScrollPos, setSavedScrollPos] = useState(0);
 
   const menuItems = ["PROJECTS"];
 
@@ -114,6 +115,7 @@ export default function Hero({
 
   const openProject = (project: Project) => {
     setSavedMobileSlideIndex(mobileSlideIndex);
+    setSavedScrollPos(scrollPos);
     setSelectedProject(project);
     if (onViewChange) onViewChange(true);
   };
@@ -122,6 +124,13 @@ export default function Hero({
     setSelectedProject(null);
     setShowFeatures(false);
     setMobileSlideIndex(savedMobileSlideIndex);
+    setScrollPos(savedScrollPos);
+    // Restore scroll position after a small delay to let the DOM update
+    setTimeout(() => {
+      if (containerRef.current) {
+        containerRef.current.scrollTo({ top: savedScrollPos, behavior: "instant" as ScrollBehavior });
+      }
+    }, 50);
     if (onViewChange) onViewChange(false);
   };
 
