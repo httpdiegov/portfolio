@@ -14,7 +14,7 @@ interface HeaderProps {
 }
 
 export default function Header({
-  activeCategory = "ALL",
+  activeCategory = "PROJECTS",
   setCategory,
   isProjectOpen = false,
   isMobileMenuOpen = false,
@@ -29,7 +29,7 @@ export default function Header({
     if (setIsMobileMenuOpen) setIsMobileMenuOpen(false);
   };
 
-  const menuItems = ["ALL", "WEB PROJECTS", "BRANDS", "AUTOMATIONS"];
+  const menuItems = ["PROJECTS"];
 
   return (
     <>

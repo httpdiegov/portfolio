@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 
 export default function Home() {
-  const [category, setCategory] = useState("ALL");
+  const [category, setCategory] = useState("PROJECTS");
   const [isProjectOpen, setIsProjectOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
